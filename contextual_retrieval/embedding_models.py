@@ -57,7 +57,7 @@ class OpenAIEmbeddingModel(BaseEmbeddingModel):
         """
         import openai
         self.model_name = model_name
-        openai.api_key = api_key
+        self.client = openai.OpenAI(api_key=api_key)
 
     def encode(self, texts: List[str]) -> np.ndarray:
         """
@@ -72,8 +72,8 @@ class OpenAIEmbeddingModel(BaseEmbeddingModel):
         import openai
         embeddings = []
         for text in texts:
-            response = openai.Embedding.create(input=text, model=self.model_name)
-            embeddings.append(response['data'][0]['embedding'])
+            response = self.client.embeddings.create(input=text, model=self.model_name)
+            embeddings.append(response.data[0].embedding)
         return np.array(embeddings)
 
 def EmbeddingModel(model_name: str = 'all-MiniLM-L6-v2', **kwargs) -> BaseEmbeddingModel:

@@ -6,7 +6,6 @@ BM25 retrieval functionality.
 
 from rank_bm25 import BM25Okapi
 from nltk.tokenize import word_tokenize
-import nltk
 from typing import List, Tuple
 
 class BM25Retriever:
@@ -17,7 +16,6 @@ class BM25Retriever:
         Parameters:
         - tokenizer: A custom tokenizer function. If None, word_tokenize from NLTK is used.
         """
-        nltk.download('punkt', quiet=True)
         self.bm25 = None
         self.documents = []
         self.tokenized_corpus = []

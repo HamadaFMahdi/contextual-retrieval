@@ -18,7 +18,10 @@ Main components:
 
 For more information, visit: https://github.com/HamadaFMahdi/contextual-retrieval
 """
-
+import os
+import nltk
+nltk.download('punkt', quiet=True)
+nltk.download('punkt_tab', quiet=True)
 from .retrieval import ContextualRetrieval
 from .embedding_models import EmbeddingModel
 from .context_generator import ContextGenerator
@@ -44,3 +47,12 @@ def create_retriever(mode='contextual_embedding', **kwargs):
     - ContextualRetrieval instance
     """
     return ContextualRetrieval(mode=mode, **kwargs)
+
+def set_api_key(api_key: str):
+    """
+    Set the OpenAI API key for the library.
+
+    Parameters:
+    - api_key (str): Your OpenAI API key.
+    """
+    os.environ["OPENAI_API_KEY"] = api_key

@@ -5,8 +5,11 @@ An advanced usage example with custom models and settings.
 """
 
 import torch
-from contextual_retrieval import ContextualRetrieval, EmbeddingModel, ContextGenerator, Reranker, BM25Retriever
+from contextual_retrieval import ContextualRetrieval, EmbeddingModel, ContextGenerator, Reranker, BM25Retriever, set_api_key
 from contextual_retrieval.utils import truncate_text, count_tokens
+
+# Set the API key (you can also set it as an environment variable)
+set_api_key("your-openai-api-key-here")
 
 # Custom embedding model
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -15,7 +18,7 @@ embedding_model = EmbeddingModel(model_name='sentence-transformers/all-mpnet-bas
 # Custom context generator with a custom prompt
 custom_prompt = ("Please provide a brief summary to place this excerpt within the larger context of the document. "
                  "Only provide the summary and nothing else.")
-context_generator = ContextGenerator(model_name='gpt-3.5-turbo', prompt=custom_prompt, api_key='YOUR_OPENAI_API_KEY')
+context_generator = ContextGenerator(model_name='gpt-4o-mini', prompt=custom_prompt)
 
 # Custom reranker
 reranker = Reranker(model_name='cross-encoder/ms-marco-MiniLM-L-12-v2', device=device)

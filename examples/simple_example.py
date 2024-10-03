@@ -4,10 +4,10 @@ simple_example.py
 A simple usage example of the Contextual Retrieval library.
 """
 
-from contextual_retrieval import ContextualRetrieval
-from contextual_retrieval.embedding_models import EmbeddingModel
-from contextual_retrieval.context_generator import ContextGenerator
-from contextual_retrieval.reranker import Reranker
+from contextual_retrieval import ContextualRetrieval, set_api_key
+
+# Set the API key (you can also set it as an environment variable)
+set_api_key("your-openai-api-key-here")
 
 # Sample documents
 documents = [
@@ -19,16 +19,7 @@ documents = [
 ]
 
 # Initialize the retriever with custom components
-embedding_model = EmbeddingModel('all-MiniLM-L6-v2')
-context_generator = ContextGenerator(model_name='gpt-3.5-turbo')
-reranker = Reranker()
-
-retriever = ContextualRetrieval(
-    mode='rerank',
-    embedding_model=embedding_model,
-    context_generator=context_generator,
-    reranker=reranker
-)
+retriever = ContextualRetrieval(mode='rerank')
 
 # Index the documents
 print("Indexing documents...")

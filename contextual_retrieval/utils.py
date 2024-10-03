@@ -5,9 +5,8 @@ Utility functions for text processing and document handling.
 """
 
 from typing import List, Optional
-import nltk
 from nltk.tokenize import word_tokenize, sent_tokenize
-nltk.download('punkt', quiet=True)
+
 
 def chunk_documents(documents: List[str], chunk_size: int = 512, chunk_overlap: int = 50) -> List[str]:
     """

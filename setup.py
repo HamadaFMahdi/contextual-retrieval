@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='contextual_retrieval',
-    version='0.1.0',
+    version='0.1.1',
     description='An open-source Python RAG library for Contextual Retrieval',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -39,3 +39,5 @@ setup(
     ],
     python_requires='>=3.7',
 )
+
+# python setup.py sdist bdist_wheel && twine upload --config-file ./.pypirc dist/*

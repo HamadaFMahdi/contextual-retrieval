@@ -4,8 +4,10 @@ context_generator.py
 Generates context for chunks using language models.
 """
 
+import os
 from abc import ABC, abstractmethod
 import openai
+
 from typing import List, Optional
 
 class BaseContextGenerator(ABC):
@@ -24,7 +26,7 @@ class BaseContextGenerator(ABC):
         pass
 
 class OpenAIContextGenerator(BaseContextGenerator):
-    def __init__(self, model_name: str = 'gpt-3.5-turbo', api_key: Optional[str] = None, prompt: Optional[str] = None):
+    def __init__(self, model_name: str = 'gpt-4o-mini', api_key: Optional[str] = None, prompt: Optional[str] = None):
         """
         Initialize the OpenAI context generator.
 
@@ -36,10 +38,17 @@ class OpenAIContextGenerator(BaseContextGenerator):
         self.model_name = model_name
         self.prompt = prompt or self.default_prompt()
 
-        if api_key:
-            openai.api_key = api_key
-        elif not openai.api_key:
-            raise ValueError("OpenAI API key must be provided either during initialization or set as an environment variable.")
+        # Try to get the API key from the environment variable if not provided
+        self.api_key = api_key or os.environ.get("OPENAI_API_KEY")
+        if not self.api_key:
+            raise ValueError(
+                "OpenAI API key not found. Please provide it either:\n"
+                "1. As an argument: ContextGenerator(api_key='your-api-key')\n"
+                "2. As an environment variable: export OPENAI_API_KEY='your-api-key'\n"
+                "3. Using the set_api_key() function: contextual_retrieval.set_api_key('your-api-key')"
+            )
+        self.client = openai.OpenAI(api_key=self.api_key)
+
 
     @staticmethod
     def default_prompt() -> str:
@@ -89,19 +98,19 @@ class OpenAIContextGenerator(BaseContextGenerator):
         )
 
         try:
-            response = openai.ChatCompletion.create(
+            response = self.client.chat.completions.create(
                 model=self.model_name,
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=100,
                 n=1,
                 temperature=0.7,
             )
-            context = response['choices'][0]['message']['content'].strip()
+            context = response.choices[0].message.content.strip()
             return context
-        except openai.error.OpenAIError as e:
+        except openai.OpenAIError as e:
             raise RuntimeError(f"OpenAI API error: {str(e)}")
 
-def ContextGenerator(model_name: str = 'gpt-3.5-turbo', **kwargs) -> BaseContextGenerator:
+def ContextGenerator(model_name: str = 'gpt-4o-mini', **kwargs) -> BaseContextGenerator:
     """
     Factory function to create an appropriate context generator based on the model name.
 

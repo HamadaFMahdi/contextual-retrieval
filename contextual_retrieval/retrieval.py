@@ -4,6 +4,7 @@ retrieval.py
 Core functionality for Contextual Retrieval.
 """
 
+import os
 from typing import List, Tuple, Union, Optional
 import numpy as np
 from .embedding_models import EmbeddingModel
@@ -24,6 +25,7 @@ class ContextualRetrieval:
         vector_store: Optional[VectorStore] = None,
         chunk_size: int = 512,
         chunk_overlap: int = 50,
+        api_key: Optional[str] = None,
     ):
         """
         Initialize the ContextualRetrieval system.
@@ -43,7 +45,6 @@ class ContextualRetrieval:
 
         self.mode = mode
         self.embedding_model = embedding_model or EmbeddingModel()
-        self.context_generator = context_generator or ContextGenerator()
         self.bm25_retriever = bm25_retriever
         self.reranker = reranker
         self.vector_store = vector_store or VectorStore()
@@ -54,6 +55,12 @@ class ContextualRetrieval:
             self.bm25_retriever = BM25Retriever()
         if self.mode == 'rerank' and not reranker:
             self.reranker = Reranker()
+
+        self.api_key = api_key or os.environ.get("OPENAI_API_KEY")
+        if self.api_key:
+            os.environ["OPENAI_API_KEY"] = self.api_key
+        
+        self.context_generator = context_generator or ContextGenerator(api_key=self.api_key)
 
     def index_documents(self, documents: List[str]) -> None:
         """
