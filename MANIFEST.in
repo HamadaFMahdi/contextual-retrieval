@@ -1,0 +1,3 @@
+include README.md
+include LICENSE
+recursive-include contextual_retrieval *.py
