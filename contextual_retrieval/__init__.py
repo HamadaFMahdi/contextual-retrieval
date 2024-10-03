@@ -16,7 +16,7 @@ Main components:
 - VectorStore: Manages vector storage and retrieval
 - chunk_documents: Utility function for document chunking
 
-For more information, visit: https://github.com/yourusername/contextual_retrieval
+For more information, visit: https://github.com/HamadaFMahdi/contextual-retrieval
 """
 
 from .retrieval import ContextualRetrieval

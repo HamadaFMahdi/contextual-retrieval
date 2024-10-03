@@ -25,27 +25,39 @@ pip install contextual-retrieval
 
 ## Quick Start
 
-Here's a simple example to get you started:
+Here's a simple example to get you started with the full power of Contextual Retrieval:
 
 ```python
 from contextual_retrieval import ContextualRetrieval
 
-# Initialize the retriever
-retriever = ContextualRetrieval(mode='contextual_embedding')
+# Initialize the retriever with the full mode
+retriever = ContextualRetrieval(mode='rerank')
 
 # Index some documents
 documents = [
     "Artificial Intelligence is transforming various industries.",
     "Machine Learning is a subset of AI focused on data-driven algorithms.",
-    "Natural Language Processing enables computers to understand human language."
+    "Natural Language Processing enables computers to understand human language.",
+    "Deep Learning models, like neural networks, are inspired by the human brain.",
+    "Computer Vision allows machines to interpret and make decisions based on visual data."
 ]
 retriever.index_documents(documents)
 
 # Query the system
-results = retriever.query("What is AI?", top_k=2)
-for doc, score in results:
-    print(f"Score: {score:.4f}, Document: {doc}")
+query = "What are the main areas of AI?"
+results = retriever.query(query, top_k=3)
+
+print(f"Query: {query}\n")
+print("Top Results:")
+for i, (doc, score) in enumerate(results, 1):
+    print(f"{i}. (Score: {score:.4f}) {doc}")
 ```
+
+This example demonstrates how to use the full Reranked Contextual Embedding + Contextual BM25 mode with just one line of initialization. The system will automatically generate context for chunks, use both embedding and BM25 for retrieval, and apply reranking to provide the most relevant results.
+
+## Learn More
+
+For more information about the Contextual Retrieval technique and its benefits, check out the original article by Anthropic: [Introducing Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval)
 
 ## Advanced Usage
 
@@ -59,17 +71,13 @@ For more advanced usage, including custom models and configurations, check out t
 - **Reranker**: Reranks retrieved chunks using transformer-based models.
 - **VectorStore**: Manages the vector database for embeddings.
 
-## Documentation
-
-For detailed documentation, please visit our [documentation site](https://contextual-retrieval.readthedocs.io/).
-
 ## Contributing
 
-We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for more details.
+We welcome contributions! 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## Citation
 
@@ -78,12 +86,8 @@ If you use this library in your research, please cite:
 ```bibtex
 @software{contextual_retrieval,
   title = {Contextual Retrieval: An Open-Source Library for Improved RAG Systems},
-  author = {Your Name},
-  year = {2023},
-  url = {https://github.com/yourusername/contextual-retrieval}
+  author = {Hamada Fadil Mahdi},
+  year = {2024},
+  url = {https://github.com/HamadaFMahdi/contextual-retrieval}
 }
 ```
-
-## Support
-
-For support, please open an issue on our [GitHub issue tracker](https://github.com/yourusername/contextual-retrieval/issues).

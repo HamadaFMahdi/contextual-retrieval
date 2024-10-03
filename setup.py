@@ -6,12 +6,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name='contextual_retrieval',
     version='0.1.0',
-    description='An open-source Python library for Contextual Retrieval',
+    description='An open-source Python RAG library for Contextual Retrieval',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author='Your Name',
-    author_email='your.email@example.com',
-    url='https://github.com/yourusername/contextual_retrieval',
+    author='Hamada Fadil Mahdi',
+    author_email='hamadamahdi2014@gmail.com',
+    url='https://github.com/HamadaFMahdi/contextual-retrieval',
     packages=find_packages(exclude=["tests", "examples"]),
     install_requires=[
         'aiohttp>=3.7.4',
